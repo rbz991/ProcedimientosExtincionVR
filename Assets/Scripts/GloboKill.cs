@@ -52,7 +52,7 @@ public class DestroyOnCollision : MonoBehaviour
                
 
                 Reinforce();
-                    PhaseManager.points += 20;
+                    PhaseManager.points += 100;
                     PhaseManager.refs ++;
 
                     if (PhaseManager.currentPhase == 1 || PhaseManager.currentPhase == 3 || PhaseManager.currentPhase == 5 || PhaseManager.currentPhase == 7 )

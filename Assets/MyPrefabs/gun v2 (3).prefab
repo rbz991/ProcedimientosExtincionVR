@@ -196,15 +196,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2f8b1fff0d78bb9468d867f25f22551d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0006
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2f8b1fff0d78bb9468d867f25f22551d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0044
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2f8b1fff0d78bb9468d867f25f22551d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.135
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2f8b1fff0d78bb9468d867f25f22551d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -251,7 +251,10 @@ PrefabInstance:
       value: gun v2 (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -7594736381303323828, guid: 2f8b1fff0d78bb9468d867f25f22551d, type: 3}
+    - {fileID: -2955562502506580004, guid: 2f8b1fff0d78bb9468d867f25f22551d, type: 3}
+    - {fileID: -1817752537321972114, guid: 2f8b1fff0d78bb9468d867f25f22551d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2f8b1fff0d78bb9468d867f25f22551d, type: 3}
       insertIndex: -1
@@ -550,6 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f369c769e8961844a3c7ccacd4c3cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   m_ProjectilePrefab0: {fileID: 6843295082987573833, guid: dd23acfaac552934aa4a657e49beec99, type: 3}
   audioSource0: {fileID: 8300000, guid: dc6c382c0d8004243b599c251e05d6cb, type: 3}
   m_ProjectilePrefab1: {fileID: 6302686622593749928, guid: ee446f346b6f66743b8fb2dbfabec448, type: 3}

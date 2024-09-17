@@ -9,7 +9,7 @@ public class PhaseManager : MonoBehaviour
     public TextMeshProUGUI tmpMesa;
     public GameObject tmpGracias;
    
-    public static int points = 300;
+    public static int points = 1000;
     public static int refs;
     public static int shootRico;
     public static int shootPobre;
@@ -28,6 +28,7 @@ public class PhaseManager : MonoBehaviour
     public string scriptNameToActivate2 = "TargetScript2";  // Name of the second script to activate
     private int components;
 
+    public VisibilityController visibilityController;
     public FadeOutAndDestroy[] fadeOutAndDestroy;
     public MusicFader musicFader;
 
@@ -35,13 +36,14 @@ public class PhaseManager : MonoBehaviour
     {
         tmpText.text = points.ToString();
        // tmpMesa.text = points.ToString();
-        if (currentPhase == 0) { points = 300; }
+       
         if (Utilidades.StartProgram == true)
         {
             Utilidades.StartProgram = false;
             Utilidades.StartLogging();
             Utilidades.LogEvent("Comienza en rico: " + Utilidades.startRich);
-
+            visibilityController.Show();
+            points = 1000;
             StartCoroutine(StartNextPhase());
         }
 
