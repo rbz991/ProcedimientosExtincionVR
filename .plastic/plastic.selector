@@ -1,0 +1,4 @@
+repository "ResExtNew@Rodrigo1960498@cloud"
+  path "/"
+    smartbranch "/main/ResExtCostoRespuesta"                      
+     
