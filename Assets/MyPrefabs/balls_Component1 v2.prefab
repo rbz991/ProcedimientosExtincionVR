@@ -66,10 +66,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6295103bb063103419603843d47823b9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6146152301259756979}
+      addedObject: {fileID: 4900037272858506215}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6295103bb063103419603843d47823b9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4900037272858506215}
+      addedObject: {fileID: 6146152301259756979}
     - targetCorrespondingSourceObject: {fileID: -3372522033569347474, guid: 6295103bb063103419603843d47823b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7590857620202238951}
@@ -121,19 +121,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6295103bb063103419603843d47823b9, type: 3}
   m_PrefabInstance: {fileID: 6608695757564522233}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6146152301259756979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6302686622593749928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42490f025f342c545b16dcd983a21748, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifetime: 10
 --- !u!54 &4900037272858506215
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -161,3 +148,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6146152301259756979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6302686622593749928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42490f025f342c545b16dcd983a21748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 10
+  bulletID: 1

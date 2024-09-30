@@ -3,7 +3,7 @@ using UnityEngine;
 public class VisibilityController : MonoBehaviour
 {
 
-
+    private bool m_IsVisible = false;
     public void Start()
     {
         Hide();
@@ -21,6 +21,21 @@ public class VisibilityController : MonoBehaviour
     public void Show()
     {
         SetRenderersVisibility(true);
+    }
+
+    public void ToggleVis()
+    {
+        if (m_IsVisible)
+        {
+            Hide();
+            m_IsVisible = false;
+        }
+        else
+        {
+            Show();
+            m_IsVisible = true;
+        }
+        
     }
 
     // Método privado para ajustar la visibilidad de los Renderers

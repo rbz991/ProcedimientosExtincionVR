@@ -18,9 +18,13 @@ public class DestroyOnCollision : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision)
-       
-
     {
+        GameObject myBullet = collision.gameObject;
+        //myBullet.GetComponent<Rigidbody>().enabled = false;
+        Bullet bulletID = myBullet.GetComponent<Bullet>(); 
+        byte bID = bulletID.bulletID;
+
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Target"))
         {
 
@@ -29,57 +33,147 @@ public class DestroyOnCollision : MonoBehaviour
             //Debug.Log("Target HP: " + Rand);
             damage++;
            // Debug.Log("Dmg counter: " + damage);
-            Utilidades.LogEvent("hit," + PhaseManager.currentPhase);
-
-            if (PhaseManager.currentPhase == 1 || PhaseManager.currentPhase == 3 || PhaseManager.currentPhase == 5 || PhaseManager.currentPhase == 7)
-            {
-                PhaseManager.hitRico++;
-            }
-            else if (PhaseManager.currentPhase == 2 || PhaseManager.currentPhase == 4 || PhaseManager.currentPhase == 6 || PhaseManager.currentPhase == 8)
-            {
-                PhaseManager.hitPobre++;
-            }
-
-
-          
-            //if (damage >= hpget.TargetHP)
-            if (hpget.isKillable == true)
-            {
-
-                if (PhaseManager.currentPhase >= 1 && PhaseManager.currentPhase <= 8)
-                {
-                    // Your code here
-               
-
-                Reinforce();
-                    PhaseManager.points += 100;
-                    PhaseManager.refs ++;
-
-                    if (PhaseManager.currentPhase == 1 || PhaseManager.currentPhase == 3 || PhaseManager.currentPhase == 5 || PhaseManager.currentPhase == 7 )
-                    {
-                        PhaseManager.refsRico++;
-                    }
-                    else if (PhaseManager.currentPhase == 2 || PhaseManager.currentPhase == 4 || PhaseManager.currentPhase == 6 || PhaseManager.currentPhase == 8 )
-                    {
-                        PhaseManager.refsPobre++;
-                    }
-
-
-
-                    Utilidades.LogEvent("kill," + PhaseManager.currentPhase);
-                    DestruirObjeto(gameObject); // Destroys this object
-                }
-                
             
 
 
-             }
+            if (Utilidades.selectedProcedure == "Resistencia" && Utilidades.startRich == true)
+            {
+                Utilidades.LogEvent(Utilidades.currentPhase + ",2");
+                if (Utilidades.currentPhase == 0 || Utilidades.currentPhase == 2)
+                {
+                    Utilidades.hitRico++;
+                }
+                else if (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 3)
+                {
+                    Utilidades.hitPobre++;
+                }
+
+            }
+            else if (Utilidades.selectedProcedure == "Resistencia" && Utilidades.startRich == false)
+            {
+                Utilidades.LogEvent(Utilidades.currentPhase + ",2");
+                if (Utilidades.currentPhase == 0 || Utilidades.currentPhase == 2)
+                {
+                    Utilidades.hitPobre++;
+                }
+                else if (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 3)
+                {
+                    Utilidades.hitRico++;
+                }
+            }
+            else if (Utilidades.selectedProcedure == "Renovación" || Utilidades.selectedProcedure == "Restablecimiento")
+            {
+                Utilidades.hit++;
+                Utilidades.LogEvent(Utilidades.currentPhase + ",2");
+            }
+            else if (Utilidades.selectedProcedure == "Resurgimiento" && bID == 1)
+            {
+                Utilidades.hitRO++;
+                Utilidades.LogEvent(Utilidades.currentPhase + ",2,1");
+            }
+            else if (Utilidades.selectedProcedure == "Resurgimiento" && bID == 2)
+            {
+                Utilidades.hitRA++;
+                Utilidades.LogEvent(Utilidades.currentPhase + ",2,2");
+            }
+           
 
 
+                //if (damage >= hpget.TargetHP)
+                if (hpget.isKillable == true)
+                {
+                             
+                     
+
+                         if (Utilidades.selectedProcedure == "Resistencia" && Utilidades.startRich == true)
+                         {
+                            if (Utilidades.currentPhase == 0 )
+                            {
+                               Utilidades.refsRico++;
+                               Reinforce();
+                               Utilidades.LogEvent(Utilidades.currentPhase + ",3");
+                            }
+                            else if (Utilidades.currentPhase == 1 )
+                            {
+                               Utilidades.refsPobre++;
+                               Reinforce();
+                               Utilidades.LogEvent(Utilidades.currentPhase + ",3");
+                            }
+
+                         }
+                         else if  (Utilidades.selectedProcedure == "Resistencia" && Utilidades.startRich == false)
+                         {
+                              if (Utilidades.currentPhase == 1)
+                              {
+                                 Utilidades.refsRico++;
+                                 Reinforce();
+                                 Utilidades.LogEvent(Utilidades.currentPhase + ",3");
+                              }
+                              else if (Utilidades.currentPhase == 0)
+                              {
+                                 Utilidades.refsPobre++;
+                                 Reinforce();
+                                 Utilidades.LogEvent(Utilidades.currentPhase + ",3");
+                              }
+                         }
+                         else if (Utilidades.selectedProcedure == "Renovación" || Utilidades.selectedProcedure == "Restablecimiento")
+                         {
+                              if (Utilidades.currentPhase == 1)
+                              {
+                                 Utilidades.refs++;
+                                 Reinforce();
+                                 Utilidades.LogEvent(Utilidades.currentPhase + ",3");
+                              }
+                         }
+                         else if (Utilidades.selectedProcedure == "Resurgimiento" && bID == 1)
+                         {
+                             if (Utilidades.currentPhase == 1)
+                             {
+                                 Utilidades.refsRO++;
+                                 Reinforce();
+                                 Utilidades.LogEvent(Utilidades.currentPhase + ",3,1");
+                             }
+                         }
+                         else if (Utilidades.selectedProcedure == "Resurgimiento" && bID == 2)
+                         {
+                             if (Utilidades.currentPhase == 2)
+                             {
+                                 Utilidades.refsRA++;
+                                 Reinforce();
+                                 Utilidades.LogEvent(Utilidades.currentPhase + ",3,2");
+                             }
+                         }
+                         else if (Utilidades.selectedProcedure == "Restablecimiento" || Utilidades.selectedProcedure == "Restablecimiento")
+                         {
+                              if (Utilidades.currentPhase == 1)
+                              {
+                                   Utilidades.refs++;
+                                   Reinforce();
+                                   Utilidades.LogEvent(Utilidades.currentPhase + ",3");
+                              }
+                         }
+                }
         }
 
+    }
+    
 
-
+    public void Reinforce()
+    {
+        if (Utilidades.responseCost == true)
+        {
+            Utilidades.points += 100;
+        }
+        else
+        {
+            Utilidades.points += 1;
+        }
+        GameObject newObject = Instantiate(m_ProjectilePrefab, m_StartPoint.position, m_StartPoint.rotation, null);
+        
+        if (newObject.TryGetComponent(out Rigidbody rigidBody))
+            ApplyForce(rigidBody);
+       
+        DestruirObjeto(gameObject);
     }
 
 
@@ -102,17 +196,6 @@ public class DestroyOnCollision : MonoBehaviour
             Debug.LogWarning("El objeto no tiene un componente SpawnedObject.");
         }
     }
-
-
-
-    public void Reinforce()
-    {
-        GameObject newObject = Instantiate(m_ProjectilePrefab, m_StartPoint.position, m_StartPoint.rotation, null);
-        
-        if (newObject.TryGetComponent(out Rigidbody rigidBody))
-            ApplyForce(rigidBody);
-    }
-
 
     void ApplyForce(Rigidbody rigidBody)
     {

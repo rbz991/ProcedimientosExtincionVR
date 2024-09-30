@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 using TMPro;
 
 public class PhaseManager : MonoBehaviour
@@ -8,42 +7,55 @@ public class PhaseManager : MonoBehaviour
     public   TextMeshProUGUI tmpText;
     public TextMeshProUGUI tmpMesa;
     public GameObject tmpGracias;
-   
-    public static int points = 1000;
-    public static int refs;
-    public static int shootRico;
-    public static int shootPobre;
-    public static int hitRico;
-    public static int hitPobre;
-    public static int refsRico;
-    public static int refsPobre;
-    public float[] phaseDurations; // Duration of each phase in minutes
-    public static int currentPhase = 0;
-    public Material SkyboxMaterial1;
-    public Material SkyboxMaterial2;
-    public Color targetColorBlue = Color.blue;
-    public Color targetColorMag = Color.magenta;
+    public GameObject secondGun;
+
+    //public Material SkyboxMaterial1;
+    //public Material SkyboxMaterial2;
+    //public Color targetColorBlue = Color.blue;
+    //public Color targetColorMag = Color.magenta;
     public GameObject targetObject;  // The GameObject that has the scripts to be toggled
     public string scriptNameToActivate1 = "TargetScript1";  // Name of the first script to activate
     public string scriptNameToActivate2 = "TargetScript2";  // Name of the second script to activate
     private int components;
 
     public VisibilityController visibilityController;
+
     public FadeOutAndDestroy[] fadeOutAndDestroy;
     public MusicFader musicFader;
 
     private void Update()
     {
-        tmpText.text = points.ToString();
-       // tmpMesa.text = points.ToString();
+        tmpText.text = Utilidades.points.ToString();
+   
        
         if (Utilidades.StartProgram == true)
         {
             Utilidades.StartProgram = false;
-            Utilidades.StartLogging();
-            Utilidades.LogEvent("Comienza en rico: " + Utilidades.startRich);
+            
+            Utilidades.LogEvent("Procedimiento: " + Utilidades.selectedProcedure);
+            Utilidades.LogEvent("Costo de respuesta: " + Utilidades.responseCost);
             visibilityController.Show();
-            points = 1000;
+            if (Utilidades.selectedProcedure == "Resistencia")
+            {
+                Utilidades.LogEvent("Duración de componentes: " + Utilidades.componentDuration);
+                Utilidades.LogEvent("Comenzó en rico: " + Utilidades.startRich);
+                Utilidades.LogEvent("IV Rico: " + Utilidades.valueVIRico);
+                Utilidades.LogEvent("IV Pobre: " + Utilidades.valueVIPobre);
+            }
+            else
+            {
+                Utilidades.LogEvent("Valor IV: " + Utilidades.valueVI);
+                Utilidades.LogEvent("Duracion Fase 1: " + Utilidades.phase1Duration);
+                Utilidades.LogEvent("Duracion Fase 2: " + Utilidades.phase2Duration);
+                Utilidades.LogEvent("Duracion Fase 3: " + Utilidades.phase3Duration);
+            }
+
+            if (Utilidades.responseCost == true)
+            {
+                Utilidades.points = 1000;
+            }
+           
+            
             StartCoroutine(StartNextPhase());
         }
 
@@ -51,67 +63,62 @@ public class PhaseManager : MonoBehaviour
 
     void Start()
     {
-        ////SkyboxMaterial1 = RenderSettings.skybox;
-        //if (phaseDurations.Length < 5)
-        // {
-        // Debug.LogError("Please set all 5 phase durations in the inspector.");
-        //  return;
-        // }
+        secondGun.SetActive(false);
         tmpGracias.SetActive(false);
-        components = phaseDurations.Length;
+        Utilidades.StartLogging();
+        components = 5;
         
     }
 
      IEnumerator StartNextPhase()
     {
-        
-        while (currentPhase < components)
+       
+        while (Utilidades.currentPhase < components)
         {
-            yield return new WaitForSeconds(phaseDurations[currentPhase] * 60);
-
-            currentPhase++;
-            TriggerPhaseActions(currentPhase);
-            
-            
-            if (currentPhase == 1)
+            if (Utilidades.currentPhase == 0)
             {
                 fadeOutAndDestroy[0].StartFadeOut();
                 fadeOutAndDestroy[1].StartFadeOut();
                 fadeOutAndDestroy[2].StartFadeOut();
                 musicFader.enabled = true;
-               
+                Utilidades.LogEvent("Phase " + Utilidades.currentPhase + " started.");
             }
+           
+            Debug.Log("Phase " + Utilidades.currentPhase + " started.");
+            yield return new WaitForSeconds(Utilidades.phaseDurations[Utilidades.currentPhase]);
+            
+            
+            Utilidades.currentPhase++;
+            ResetSpawnPoints();
+            if (Utilidades.currentPhase < 5) Utilidades.LogEvent("Phase " + Utilidades.currentPhase + " started.");
+            Debug.Log("Phase " + Utilidades.currentPhase + " started.");
 
-            if (points < 1)
-            {
-                currentPhase = 14;
-                components = 14;
-               
-            }
 
-            if (currentPhase == 13)
+            if (Utilidades.currentPhase == 4)
             {
                 tmpGracias.SetActive(true);
-            }
 
-                if (currentPhase == 14)
-            {
-               Utilidades.LogEvent("Puntos: " + points);
-                Utilidades.LogEvent("Refs: " + refs);
-                Utilidades.LogEvent("Refs Rico: " + refsRico);
-                Utilidades.LogEvent("Refs Pobre: " + refsPobre);
-                Utilidades.LogEvent("Shoot Rico: " + shootRico);
-                Utilidades.LogEvent("Shoot Pobre: " + shootPobre);
-                Utilidades.LogEvent("Hit Rico: " + hitRico);
-                Utilidades.LogEvent("Hit Pobre: " + hitPobre);
+
+                Utilidades.LogEvent("Puntos: " + Utilidades.points);
+                Utilidades.LogEvent("Refs: " + Utilidades.refs);
+
+                if (Utilidades.selectedProcedure == "Resistencia")
+                {
+                    Utilidades.LogEvent("Refs Rico: " + Utilidades.refsRico);
+                    Utilidades.LogEvent("Refs Pobre: " + Utilidades.refsPobre);
+                    Utilidades.LogEvent("Shoot Rico: " + Utilidades.shootRico);
+                    Utilidades.LogEvent("Shoot Pobre: " + Utilidades.shootPobre);
+                    Utilidades.LogEvent("Hit Rico: " + Utilidades.hitRico);
+                    Utilidades.LogEvent("Hit Pobre: " + Utilidades.hitPobre);
+                }
+                   
+
+
                 musicFader.enabled = false;
-                Application.Quit();
-
-                #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-                #endif
 
 
+                //Poner esto en el boton de gracias
+                
             }
 
         }
@@ -119,53 +126,7 @@ public class PhaseManager : MonoBehaviour
         
     }
 
-    void TriggerPhaseActions(int phase)
-    {
-        ResetSpawnPoints();
-        Debug.Log("Phase " + phase + " started.");
-
-        //switch (phase)
-        //{
-        //    case 1:
-        //        ToggleScripts(true, false);
-        //        break;
-        //    case 3:
-        //        ToggleScripts(true, false);
-        //        break;
-        //    case 2:
-        //        ToggleScripts(false, true);
-        //        break;
-        //    case 4:
-        //        ToggleScripts(false, true);
-        //        break;
-        //    case 5:
-        //        ToggleScripts(false, false);
-        //        break;
-        //}
-    }
-
-    void ToggleScripts(bool enableScript1, bool enableScript2)
-    {
-        MonoBehaviour script1 = targetObject.GetComponent(scriptNameToActivate1) as MonoBehaviour;
-        MonoBehaviour script2 = targetObject.GetComponent(scriptNameToActivate2) as MonoBehaviour;
-
-        if (script1 != null && script2 != null)
-        {
-            script1.enabled = enableScript1;
-            script2.enabled = enableScript2;
-            Debug.Log($"{scriptNameToActivate1} enabled: {enableScript1}, {scriptNameToActivate2} enabled: {enableScript2}");
-        }
-        else
-        {
-            Debug.LogError("One or both scripts not found on the target object.");
-        }
-    }
-
-    void FinishProgram()
-    {
-        Utilidades.LogEvent("points," + points);
-        Debug.Log("All phases completed. Program will finish.");
-    }
+    
 
     private void ResetSpawnPoints()
     {

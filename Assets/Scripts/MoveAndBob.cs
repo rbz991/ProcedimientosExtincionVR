@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MoveAndBob : MonoBehaviour
 {
-
+    private DestroyOnCollision globokill;
     public int MaxHP;
     public int VI_Value;
     public float moveSpeed = 2f;       // Speed of the initial upward movement
@@ -20,6 +20,7 @@ public class MoveAndBob : MonoBehaviour
     public bool isKillable = false;
     private int initialPhase;
     public Vector3 m_Velocity;
+    
     void OnEnable()
     {
         // Initialize variables whenever the object is enabled (important for pooled objects)
@@ -28,38 +29,62 @@ public class MoveAndBob : MonoBehaviour
 
     void Start()
     {
+
+        globokill = GetComponent<DestroyOnCollision>();
         // Ensure initialization even if not pooled
-        initialPhase = PhaseManager.currentPhase;
+        initialPhase = Utilidades.currentPhase;
         TargetHP = Random.Range(MaxHP - 2, MaxHP + 3);
-       // Debug.Log("Target HP: " + TargetHP);
+        // Debug.Log("Target HP: " + TargetHP);
 
 
-        if (PhaseManager.currentPhase == 1 || PhaseManager.currentPhase == 3 || PhaseManager.currentPhase == 5 || PhaseManager.currentPhase == 7 || PhaseManager.currentPhase == 9 || PhaseManager.currentPhase == 11)
+
+
+        if (Utilidades.selectedProcedure == "Resistencia" && Utilidades.startRich == true)
         {
-            if (Utilidades.startRich == true)
-            {
-                currentIteration = Utilidades.VIGen1(VI_Value) / 1000;
-            }
-            else
-            {
-                currentIteration = Utilidades.VIGen2(VI_Value) / 1000;
-            }
-
-         
+            if (Utilidades.currentPhase == 0) currentIteration = Utilidades.VIGen1(Utilidades.valueVIRico) / 1000;
+            if (Utilidades.currentPhase == 1) currentIteration = Utilidades.VIGen2(Utilidades.valueVIPobre) / 1000;
+            if (Utilidades.currentPhase == 2 || Utilidades.currentPhase == 3) currentIteration = 999;
         }
-        if (PhaseManager.currentPhase == 2 || PhaseManager.currentPhase == 4 || PhaseManager.currentPhase == 6 || PhaseManager.currentPhase == 8 || PhaseManager.currentPhase == 10 || PhaseManager.currentPhase == 12)
+        else if (Utilidades.selectedProcedure == "Resistencia" && Utilidades.startRich == false)
         {
-            if (Utilidades.startRich == true)
+            if (Utilidades.currentPhase == 0) currentIteration = Utilidades.VIGen1(Utilidades.valueVIPobre) / 1000;
+            if (Utilidades.currentPhase == 1) currentIteration = Utilidades.VIGen2(Utilidades.valueVIRico) / 1000;
+            if (Utilidades.currentPhase == 2 || Utilidades.currentPhase == 3) currentIteration = 999;
+        }
+        else if (Utilidades.selectedProcedure != "Resistencia")
+        {
+            if (Utilidades.selectedProcedure == "Renovación" || Utilidades.selectedProcedure == "Restablecimiento")
             {
-                currentIteration = Utilidades.VIGen2(VI_Value) / 1000;
+                if (Utilidades.currentPhase == 1) currentIteration = Utilidades.VIGen1(Utilidades.valueVI) / 1000;
+                if (Utilidades.currentPhase == 2) currentIteration = 999;
+                if (Utilidades.currentPhase == 3) currentIteration = 999;
             }
-            else
+            else if (Utilidades.selectedProcedure == "Resurgimiento")
             {
-                currentIteration = Utilidades.VIGen1(VI_Value) / 1000;
+                if (Utilidades.currentPhase == 1) currentIteration = Utilidades.VIGen1(Utilidades.valueVI) / 1000;
+                if (Utilidades.currentPhase == 2) currentIteration = Utilidades.VIGen1(Utilidades.valueVI) / 1000;
+                if (Utilidades.currentPhase == 3) currentIteration = 999;
             }
+           
+
+
+
+        }
+        else
+        {
+            currentIteration = 999;
         }
 
-        StartCoroutine(CountVI_Value(currentIteration));
+        if (Utilidades.selectedProcedure == "Restablecimiento" && Utilidades.currentPhase == 3)
+        {
+            StartCoroutine(CountVI_Value(Utilidades.restabTV));
+        }
+        else
+        {
+            StartCoroutine(CountVI_Value(currentIteration));
+        }
+
+            
                 InitializeBobbing();
     }
 
@@ -68,6 +93,14 @@ public class MoveAndBob : MonoBehaviour
         yield return new WaitForSeconds(iteration);
         isKillable = true;
        // Debug.Log(isKillable);
+       if (Utilidades.selectedProcedure == "Restablecimiento" && Utilidades.currentPhase == 3)
+        {
+            globokill.Reinforce();
+            Utilidades.LogEvent(Utilidades.currentPhase + ",4");
+        }
+
+
+
     }
 
 
@@ -85,7 +118,7 @@ public class MoveAndBob : MonoBehaviour
     {
         transform.Rotate(m_Velocity * Time.deltaTime);
 
-        if (initialPhase == PhaseManager.currentPhase) 
+        if (initialPhase == Utilidades.currentPhase) 
         {
               if (!reachedTarget)
               {

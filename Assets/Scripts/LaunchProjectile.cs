@@ -26,7 +26,7 @@ namespace Unity.VRTemplate
         {
 
 
-            if (PhaseManager.points > 0)
+            if (Utilidades.points > 0)
             {
 
                 GameObject newObject = Instantiate(m_ProjectilePrefab, m_StartPoint.position, m_StartPoint.rotation, null);

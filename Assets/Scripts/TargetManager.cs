@@ -18,7 +18,7 @@ public class TargetManager : MonoBehaviour
     public GameObject targetPrefab3; // The prefab for the target to spawn
     public Transform[] spawnPoints; // Array of spawn points
     private GameObject currentTarget; // Currently active target
-    private int lastSpawnIndex = -1; // To store the last used spawn index
+    //private int lastSpawnIndex = -1; // To store the last used spawn index
                                      // public float moveDistance = 5f; // Distance each target will move
                                      // public float moveSpeed = 1f; // Speed of the movement
                                      // public Vector3 moveDirection = Vector3.forward; // Direction of the movement
@@ -26,7 +26,7 @@ public class TargetManager : MonoBehaviour
     void Update()
     {
 
-        if (PhaseManager.currentPhase != 0)
+        if (Utilidades.hasStarted == true)
         { 
             currentTargets.RemoveAll(target => target == null);
         // Check if there are fewer targets than the allowed simultaneous targets
@@ -67,37 +67,52 @@ public class TargetManager : MonoBehaviour
             SpawnPointsIndex.RemoveAt(p);
             Utilidades.notAvailableSpawnPoints[spawnIndex] = true;
 
-            GameObject newTarget;
+            // Inicializamos `newTarget` a null
+            GameObject newTarget = null;
 
-            if (PhaseManager.currentPhase == 0)
+            if (Utilidades.hasStarted == false)
             {
                 newTarget = null;
             }
             else
             {
-                if (PhaseManager.currentPhase % 2 != 0)
+                if (Utilidades.selectedProcedure == "Resistencia" && (Utilidades.currentPhase == 0 || Utilidades.currentPhase == 2))
                 {
                     newTarget = Instantiate(targetPrefab, spawnPoints[spawnIndex].position, Quaternion.identity);
                 }
-                else
+                else if (Utilidades.selectedProcedure == "Resistencia" && (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 3))
                 {
                     newTarget = Instantiate(targetPrefab2, spawnPoints[spawnIndex].position, Quaternion.identity);
                 }
-            }
+                else if (Utilidades.selectedProcedure == "Renovación" && Utilidades.currentPhase == 1 || Utilidades.currentPhase == 3)
+                {
+                    newTarget = Instantiate(targetPrefab, spawnPoints[spawnIndex].position, Quaternion.identity);
+                }
+                else if (Utilidades.selectedProcedure == "Renovación" && Utilidades.currentPhase == 2)
+                {
+                    newTarget = Instantiate(targetPrefab2, spawnPoints[spawnIndex].position, Quaternion.identity);
+                }
+                else if ((Utilidades.selectedProcedure == "Restablecimiento" || Utilidades.selectedProcedure == "Resurgimiento") && (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 2 || Utilidades.currentPhase == 3))
+                {
+                    newTarget = Instantiate(targetPrefab, spawnPoints[spawnIndex].position, Quaternion.identity);
+                }
 
-            if (newTarget != null)
-            {
-                // Asignar el índice del punto de spawn al objeto instanciado
-                newTarget.AddComponent<SpawnedObject>().spawnIndex = spawnIndex;
 
-                currentTargets.Add(newTarget);
+                if (newTarget != null)
+                {
+                    // Asignar el índice del punto de spawn al objeto instanciado
+                    newTarget.AddComponent<SpawnedObject>().spawnIndex = spawnIndex;
+
+                    currentTargets.Add(newTarget);
+                }
             }
         }
         else
         {
-            Debug.LogWarning("No hay puntos de spawn disponibles.");
+           // Debug.Log("No hay puntos de spawn disponibles.");
         }
     }
+
 
 
 }

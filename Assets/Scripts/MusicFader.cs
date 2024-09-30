@@ -31,19 +31,45 @@ public class MusicFader : MonoBehaviour
         // Check the variable from the other script
         // if (phaseManager != null)
         // {
-        if ((PhaseManager.currentPhase == 1 || PhaseManager.currentPhase == 3 || PhaseManager.currentPhase == 5 || PhaseManager.currentPhase == 7 || PhaseManager.currentPhase == 9 || PhaseManager.currentPhase == 11) && !isFadingOut)
+
+        if (Utilidades.selectedProcedure == "Resistencia")
+        {
+            if (Utilidades.currentPhase == 0 || Utilidades.currentPhase == 2)
+            {
+                StartCoroutine(FadeIn(audioSource1, audioSource2));
+            }
+            else if (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 3)
+            {
+                StartCoroutine(FadeIn(audioSource2, audioSource1));
+            }
+            else 
+            {
+                audioSource1.Stop();
+                audioSource2.Stop();
+            }
+
+        }
+        else if (Utilidades.selectedProcedure == "Renovación")
+        {
+            if (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 3)
+            {
+                StartCoroutine(FadeIn(audioSource1, audioSource2));
+            }
+            else if (Utilidades.currentPhase == 2)
+            {
+                StartCoroutine(FadeIn(audioSource2, audioSource1));
+            }
+            else if ((Utilidades.currentPhase == 4) && !isFadingOut)
+            {
+                audioSource1.volume = 0f;
+                audioSource2.volume = 0f;
+            }
+        }
+        else
         {
             StartCoroutine(FadeIn(audioSource1, audioSource2));
         }
-        else if ((PhaseManager.currentPhase == 2 || PhaseManager.currentPhase == 4 || PhaseManager.currentPhase == 6 || PhaseManager.currentPhase == 8 || PhaseManager.currentPhase == 10 || PhaseManager.currentPhase == 12) && !isFadingOut)
-        {
-            StartCoroutine(FadeIn(audioSource2, audioSource1));
-        }
-        else if ((PhaseManager.currentPhase == 13) && !isFadingOut)
-        {
-            audioSource1.volume = 0f;
-            audioSource2.volume = 0f;
-        }
+       
       //  }
     }
 

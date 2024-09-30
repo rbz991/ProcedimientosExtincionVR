@@ -4,10 +4,53 @@ using UnityEngine;
 
 public static class Utilidades
 {
+    public static float[] phaseDurations = new float[5]; // Duration of each phase in minutes
+    public static int currentPhase = 0;
+   
     public static int GlobosSimultaneos = 1;
-        public static bool startRich = true;
-    public static bool StartProgram = false;
+    public static bool responseCost = false;
+    public static bool startRich = false;
     public static bool TimeOut = false;
+    public static int timeOutDuration = 0;
+    public static string selectedProcedure = null;
+    public static int points = 0;
+    public static bool canRespond = true;
+    public static int restabTV = 0;
+    
+    public static int shoot;
+    public static int hit;
+    public static int refs;
+    public static int valueVI;
+    public static int phase1Duration;
+    public static int phase2Duration;
+    public static int phase3Duration;
+
+    public static int shootRO;
+    public static int shootRA;
+    public static int hitRO;
+    public static int hitRA;
+    public static int refsRO;
+    public static int refsRA;
+    public static int TOresp;
+
+    public static int shootRico;
+    public static int shootPobre;
+    public static int hitRico;
+    public static int hitPobre;
+    public static int refsRico;
+    public static int refsPobre;
+    public static int valueVIRico;
+    public static int valueVIPobre;
+    public static int componentDuration;
+  
+    
+
+
+    public static byte activeInput = 0;
+   
+    public static bool hasStarted = false;
+    public static bool StartProgram = false;
+    
     private static List<int> VIList1 = new List<int>();
     private static List<int> VIList2 = new List<int>();
 
@@ -133,9 +176,10 @@ public static class Utilidades
 
     public static void StartLogging()
     {
-       
-            // Set the log file path
-            logFilePath = Path.Combine(Application.persistentDataPath, "eventLogX.txt");
+        System.DateTime now = System.DateTime.Now;
+        string timeOnly = now.ToString("dd_MM_yyyy-HH_mm");
+        // Set the log file path
+        logFilePath = Path.Combine(Application.persistentDataPath, timeOnly+"_eventLog.txt");
 
             // Log an event
             LogEvent("Logging Manager initialized at " + System.DateTime.Now);

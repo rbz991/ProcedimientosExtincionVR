@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 namespace Unity.VRTemplate
 {
@@ -34,56 +35,135 @@ namespace Unity.VRTemplate
         public void Fire()
         {
 
-            if (PhaseManager.points == 0)
+            //HAY QUE AJUSTAR LAS ARMAS Y BALAS PARA RESURG
+
+
+           
+            if (Utilidades.responseCost == true) Utilidades.points--;
+
+            if (Utilidades.canRespond == false)
             {
-                Utilidades.LogEvent("null," + PhaseManager.currentPhase);
+                Utilidades.TOresp++;
+                Utilidades.LogEvent(Utilidades.currentPhase + ",4" + ID);
+                GameObject newObject = Instantiate(m_ProjectilePrefabTO, m_StartPoint.position, m_StartPoint.rotation, null);
+                if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                    ApplyForce(rigidBody);
+                PlaySound(audioSourceTO);
             }
             else
             {
 
 
-                if (Utilidades.TimeOut == false) // ya tengo el id en este miosmo script, solo es decirle que si hay TO entonces por unos segundos no funcione
+                if (Utilidades.hasStarted == false)
                 {
-                    PhaseManager.points--;
-                    if (PhaseManager.currentPhase == 0)
+                    GameObject newObject = Instantiate(m_ProjectilePrefab0, m_StartPoint.position, m_StartPoint.rotation, null);
+                    if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                        ApplyForce(rigidBody);
+                    PlaySound(audioSource0);
+                }
+                else
+                {
+                    if (Utilidades.selectedProcedure == "Resistencia" && Utilidades.startRich == true)
                     {
-                        GameObject newObject = Instantiate(m_ProjectilePrefab0, m_StartPoint.position, m_StartPoint.rotation, null);
-                        if (newObject.TryGetComponent(out Rigidbody rigidBody))
-                            ApplyForce(rigidBody);
-                        PlaySound(audioSource0);
+                        if (Utilidades.currentPhase == 0 || Utilidades.currentPhase == 2)
+                        {
+                            Utilidades.shootRico++;
+                            Utilidades.LogEvent(Utilidades.currentPhase + ",1" );
+                            GameObject newObject = Instantiate(m_ProjectilePrefab1, m_StartPoint.position, m_StartPoint.rotation, null);
+                            if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                                ApplyForce(rigidBody);
+                            PlaySound(audioSource1);
+                        }
+                        if (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 3)
+                        {
+                            Utilidades.shootPobre++;
+                            Utilidades.LogEvent(Utilidades.currentPhase  + ",1" );
+                            GameObject newObject = Instantiate(m_ProjectilePrefab1, m_StartPoint.position, m_StartPoint.rotation, null);
+                            if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                                ApplyForce(rigidBody);
+                            PlaySound(audioSource1);
+                        }
                     }
-                    else if (PhaseManager.currentPhase == 1 || PhaseManager.currentPhase == 3 || PhaseManager.currentPhase == 5 || PhaseManager.currentPhase == 7)
+                    else if (Utilidades.selectedProcedure == "Resistencia" && Utilidades.startRich == false)
                     {
-                        PhaseManager.shootRico++;
-                        Utilidades.LogEvent("shoot," + PhaseManager.currentPhase);
+                        if (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 3)
+                        {
+                            Utilidades.shootRico++;
+                            Utilidades.LogEvent(Utilidades.currentPhase + ",1" );
+                            GameObject newObject = Instantiate(m_ProjectilePrefab1, m_StartPoint.position, m_StartPoint.rotation, null);
+                            if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                                ApplyForce(rigidBody);
+                            PlaySound(audioSource1);
+                        }
+                        if (Utilidades.currentPhase == 0 || Utilidades.currentPhase == 2)
+                        {
+                            Utilidades.shootPobre++;
+                            Utilidades.LogEvent(Utilidades.currentPhase + ",1" );
+                            GameObject newObject = Instantiate(m_ProjectilePrefab1, m_StartPoint.position, m_StartPoint.rotation, null);
+                            if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                                ApplyForce(rigidBody);
+                            PlaySound(audioSource1);
+                        }
+                    }
+                    else if (Utilidades.selectedProcedure == "Renovación" || Utilidades.selectedProcedure == "Restablecimiento")
+                    {
+                        Utilidades.shoot++;
+                        Utilidades.LogEvent(Utilidades.currentPhase + ",1" );
                         GameObject newObject = Instantiate(m_ProjectilePrefab1, m_StartPoint.position, m_StartPoint.rotation, null);
                         if (newObject.TryGetComponent(out Rigidbody rigidBody))
                             ApplyForce(rigidBody);
                         PlaySound(audioSource1);
                     }
-                    else if (PhaseManager.currentPhase == 2 || PhaseManager.currentPhase == 4 || PhaseManager.currentPhase == 6 || PhaseManager.currentPhase == 8)
+                    else if (Utilidades.selectedProcedure == "Resurgimiento" && ID == 1)
                     {
-                        PhaseManager.shootPobre++;
-                        Utilidades.LogEvent("shoot," + PhaseManager.currentPhase);
-                        GameObject newObject = Instantiate(m_ProjectilePrefab2, m_StartPoint.position, m_StartPoint.rotation, null);
-                        if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                        if (Utilidades.currentPhase == 2 && Utilidades.TimeOut == true)
+                        {
+                            StartCoroutine(TODuration(Utilidades.timeOutDuration));
+                            Utilidades.TOresp++;
+                            Utilidades.LogEvent(Utilidades.currentPhase + ",4" + ID);
+                            GameObject newObject = Instantiate(m_ProjectilePrefabTO, m_StartPoint.position, m_StartPoint.rotation, null);
+                            if (newObject.TryGetComponent(out Rigidbody rigidBody))
                             ApplyForce(rigidBody);
-                        PlaySound(audioSource2);
+                            PlaySound(audioSourceTO);
+                        }
+                        else
+                        {
+                            Utilidades.shootRO++;
+                            Utilidades.LogEvent(Utilidades.currentPhase + ",1," + ID);
+                            GameObject newObject = Instantiate(m_ProjectilePrefab1, m_StartPoint.position, m_StartPoint.rotation, null);
+                            if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                            ApplyForce(rigidBody);
+                            PlaySound(audioSource1);
+                        }
+                        
                     }
-                }
-                else
-                {
-                    GameObject newObject = Instantiate(m_ProjectilePrefabTO, m_StartPoint.position, m_StartPoint.rotation, null);
-                    if (newObject.TryGetComponent(out Rigidbody rigidBody))
-                        ApplyForce(rigidBody);
-                    PlaySound(audioSourceTO);
-                }
-                
+                    else if (Utilidades.selectedProcedure == "Resurgimiento" && ID == 2)
+                    {
+                            if (Utilidades.currentPhase == 1 && Utilidades.TimeOut == true)
+                            {
+                                StartCoroutine(TODuration(Utilidades.timeOutDuration));
+                                Utilidades.TOresp++;
+                                Utilidades.LogEvent(Utilidades.currentPhase + ",4" + ID);
+                                GameObject newObject = Instantiate(m_ProjectilePrefabTO, m_StartPoint.position, m_StartPoint.rotation, null);
+                                if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                                ApplyForce(rigidBody);
+                                PlaySound(audioSourceTO);
+                            }
+                            else
+                            {
+                               Utilidades.shootRA++;
+                               Utilidades.LogEvent(Utilidades.currentPhase + ",1" + ID);
+                               GameObject newObject = Instantiate(m_ProjectilePrefab2, m_StartPoint.position, m_StartPoint.rotation, null);
+                               if (newObject.TryGetComponent(out Rigidbody rigidBody))
+                               ApplyForce(rigidBody);
+                               PlaySound(audioSource1);  
+                            }
+                    }
 
-              
-
+                }
             }
-            
+
+
         }
 
       
@@ -92,15 +172,6 @@ namespace Unity.VRTemplate
             Vector3 force = m_StartPoint.forward * m_LaunchSpeed;
             rigidBody.AddForce(force);
         }
-
-
-        
-
-
-   
-        
-
-       
 
 
         public void PlaySound(AudioClip myClip)
@@ -115,7 +186,21 @@ namespace Unity.VRTemplate
                 Debug.LogWarning("No se encontró un AudioSource en este GameObject.");
             }
         }
+
+        IEnumerator TODuration(float secs)
+        {
+            Utilidades.canRespond = false;
+            yield return new WaitForSeconds(secs);
+            Utilidades.canRespond = true;
+
+
+        }
+
+
     }
+
+
+   
 
 
 }

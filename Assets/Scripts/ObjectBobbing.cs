@@ -49,10 +49,10 @@ public class ObjectBobbing : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         // Start the speed boost coroutine when a collision occurs
-        if (PhaseManager.currentPhase == 1 || PhaseManager.currentPhase == 2)
-        { 
-        StartCoroutine(BobbingSpeedBoost());
-        } 
+        //if (Utilidades.currentPhase == 1 || Utilidades.currentPhase == 2)
+        //{ 
+        //StartCoroutine(BobbingSpeedBoost());
+        //} 
 
         
     }
