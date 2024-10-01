@@ -81,7 +81,7 @@ public class PhaseManager : MonoBehaviour
                 fadeOutAndDestroy[1].StartFadeOut();
                 fadeOutAndDestroy[2].StartFadeOut();
                 musicFader.enabled = true;
-                Utilidades.LogEvent("Phase " + Utilidades.currentPhase + " started.");
+                Utilidades.LogEvent("Procedure started.");
             }
            
             Debug.Log("Phase " + Utilidades.currentPhase + " started.");
@@ -90,14 +90,14 @@ public class PhaseManager : MonoBehaviour
             
             Utilidades.currentPhase++;
             ResetSpawnPoints();
-            if (Utilidades.currentPhase < 5) Utilidades.LogEvent("Phase " + Utilidades.currentPhase + " started.");
+            if (Utilidades.currentPhase < 5) /*Utilidades.LogEvent("Phase " + Utilidades.currentPhase + " started.");*/
             Debug.Log("Phase " + Utilidades.currentPhase + " started.");
 
 
             if (Utilidades.currentPhase == 4)
             {
                 tmpGracias.SetActive(true);
-
+                //musicFader.enabled = false;
 
                 Utilidades.LogEvent("Puntos: " + Utilidades.points);
                 Utilidades.LogEvent("Refs: " + Utilidades.refs);
@@ -114,7 +114,7 @@ public class PhaseManager : MonoBehaviour
                    
 
 
-                musicFader.enabled = false;
+                //musicFader.enabled = false;
 
 
                 //Poner esto en el boton de gracias

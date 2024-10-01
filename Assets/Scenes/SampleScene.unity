@@ -518,7 +518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6850850030064232037, guid: bfbe9b85cfd2e2b45a3cae0944ad11cd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6850850030064232037, guid: bfbe9b85cfd2e2b45a3cae0944ad11cd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -550,7 +550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6850850030551756332, guid: bfbe9b85cfd2e2b45a3cae0944ad11cd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 44.33
       objectReference: {fileID: 0}
     - target: {fileID: 6850850030551756332, guid: bfbe9b85cfd2e2b45a3cae0944ad11cd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -582,7 +582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6850850031028985093, guid: bfbe9b85cfd2e2b45a3cae0944ad11cd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 44.33
       objectReference: {fileID: 0}
     - target: {fileID: 6850850031028985093, guid: bfbe9b85cfd2e2b45a3cae0944ad11cd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -638,7 +638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6850850031287018738, guid: bfbe9b85cfd2e2b45a3cae0944ad11cd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6850850031287018738, guid: bfbe9b85cfd2e2b45a3cae0944ad11cd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -25162,8 +25162,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1a98c3a484185ea4c8fad62a895d6bda, type: 3}
-  m_Resource: {fileID: 8300000, guid: 1a98c3a484185ea4c8fad62a895d6bda, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a3a5576614058e042b08ba453184aa72, type: 3}
+  m_Resource: {fileID: 8300000, guid: a3a5576614058e042b08ba453184aa72, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

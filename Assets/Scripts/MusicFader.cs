@@ -44,8 +44,9 @@ public class MusicFader : MonoBehaviour
             }
             else 
             {
-                audioSource1.Stop();
-                audioSource2.Stop();
+                StopAllCoroutines();
+                audioSource1.enabled = false;
+                audioSource2.enabled = false;
             }
 
         }
